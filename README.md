@@ -41,3 +41,14 @@ This is a project to help me understand AI-based coding better
 
 ## Out of Scope
 Do not build a web-based UI for this.
+
+## Run (local)
+
+Build and run the MCP server (worker) locally:
+
+```bash
+dotnet build src/McpServer.csproj
+dotnet run --project src/McpServer.csproj
+```
+
+The server reads JSON-RPC 2.0 messages from stdin and writes responses to stdout. Logging is written to stderr.
