@@ -1,14 +1,71 @@
+using System.Collections;
+using McpServer.Models;
+
 namespace McpServer.Services;
 
-// The SentinelResourceMonitor will generate statuses for 100 resources using the McpServer.Models.ResourceDto model.
-// The breakdown of the resources are as follows:
-// - 30 "storage-bin" resources
-// - 10 "transport" resources
-// - The remainder are "worker" resources
-// The resource types are "worker", "storage-bin", and "transporter".
-// The "worker" resource can have the following states: "active", "ready", "maintenance"
-// The "storage-bin" resource can have the following states: "empty", "in-use"
-// The "transporter" resource can have the following states: "parked", "in-transit-worker", "in-transit-storage-bin", "in-transit-worker-storage-bin"
-// The class should implement the IEnumeable interface and can effectively act on 'Where' clauses by the McpServer.Tools.ResourceStatusTool.GetResourceStatus() method
-// The resource names should just be a sequential starting from one; i.e: "worker-001", "worker-002", "bin-001", "bin-002", "transport-001", "transport-002"
-// The state of each resource should be randomly generated each time GetResourceStatus() requests data. Do not worry about the resources transitioning from one state to another.
+/// <summary>
+/// The SentinelResourceMonitor generates statuses for 100 resources.
+/// - 60 "worker" resources
+/// - 30 "storage-bin" resources
+/// - 10 "transporter" resources
+/// States are randomly generated each time the collection is enumerated.
+/// </summary>
+public class SentinelResourceMonitor : IEnumerable<ResourceDto>
+{
+    private static readonly Random _random = new Random();
+    
+    private static readonly string[] _workerStates = { "active", "ready", "maintenance" };
+    private static readonly string[] _storageBinStates = { "empty", "in-use" };
+    private static readonly string[] _transporterStates = 
+    { 
+        "parked", 
+        "in-transit-worker", 
+        "in-transit-storage-bin", 
+        "in-transit-worker-storage-bin" 
+    };
+
+    private const int WorkerCount = 60;
+    private const int StorageBinCount = 30;
+    private const int TransporterCount = 10;
+
+    public IEnumerator<ResourceDto> GetEnumerator()
+    {
+        // Generate 60 workers
+        for (int i = 1; i <= WorkerCount; i++)
+        {
+            yield return new ResourceDto
+            {
+                Name = $"worker-{i:D3}",
+                Type = "worker",
+                Status = _workerStates[_random.Next(_workerStates.Length)]
+            };
+        }
+
+        // Generate 30 storage bins
+        for (int i = 1; i <= StorageBinCount; i++)
+        {
+            yield return new ResourceDto
+            {
+                Name = $"bin-{i:D3}",
+                Type = "storage-bin",
+                Status = _storageBinStates[_random.Next(_storageBinStates.Length)]
+            };
+        }
+
+        // Generate 10 transporters
+        for (int i = 1; i <= TransporterCount; i++)
+        {
+            yield return new ResourceDto
+            {
+                Name = $"transport-{i:D3}",
+                Type = "transporter",
+                Status = _transporterStates[_random.Next(_transporterStates.Length)]
+            };
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+}
