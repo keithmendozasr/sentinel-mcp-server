@@ -48,6 +48,40 @@ public class JsonRpcHandler
 
         try
         {
+            // Handle initialize - required for MCP protocol handshake
+            if (req.Method == "initialize")
+            {
+                var initResult = new
+                {
+                    protocolVersion = "2024-11-05",
+                    capabilities = new
+                    {
+                        tools = new { }
+                    },
+                    serverInfo = new
+                    {
+                        name = "McpServer",
+                        version = "1.0.0"
+                    }
+                };
+                var resp = new JsonRpcResponse { Result = initResult, Id = req.Id };
+                return JsonSerializer.Serialize(resp, _opts);
+            }
+
+            // Handle initialized notification - no response needed
+            if (req.Method == "notifications/initialized")
+            {
+                Console.Error.WriteLine("Client initialized");
+                return null; // Notifications don't require a response
+            }
+
+            // Handle ping - optional but good for health checks
+            if (req.Method == "ping")
+            {
+                var resp = new JsonRpcResponse { Result = new { }, Id = req.Id };
+                return JsonSerializer.Serialize(resp, _opts);
+            }
+
             if (req.Method == "tools/list")
             {
                 var tools = _resourceTool.ListTools();

@@ -10,7 +10,17 @@ public class ResourceStatusTool
         {
             tools = new[]
             {
-                new { name = "getResourceStatus", description = "Returns status of resources" }
+                new
+                {
+                    name = "getResourceStatus",
+                    description = "Returns status of resources",
+                    inputSchema = new Dictionary<string, object>
+                    {
+                        ["type"] = "object",
+                        ["properties"] = new Dictionary<string, object>(),
+                        ["required"] = new string[] { }
+                    }
+                }
             }
         };
     }
