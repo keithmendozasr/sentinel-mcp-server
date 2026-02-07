@@ -54,9 +54,13 @@ Do not build a web-based UI for this.
 
 Build and run the MCP server (worker) locally:
 
-```bash
+```cli
 dotnet build src/McpServer.csproj
 dotnet run --project src/McpServer.csproj
+```
+
+```MCP inspector
+npx @modelcontextprotocol/inspector pwsh -NoLogo -Command 'dotnet run --no-logo --no-build --project "<path to mcp-server>\src\McpServer.csproj"
 ```
 
 The server reads JSON-RPC 2.0 messages from stdin and writes responses to stdout. Logging is written to stderr.
