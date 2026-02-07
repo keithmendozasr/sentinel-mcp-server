@@ -11,7 +11,7 @@ As an aside, this is intended for me to experience vibe coding and MCP Server cr
 ## Requirements
 ### Functional
 - The system shall act as a basis for a future MCP server
-- As a starting iteration the MCP server can send "hard-coded values"
+- The MCP server exposes tools to query resource status and backend information
 
 ### Non-Functional
 - Performance: The system should be able to handle start processing at least 100 transactions per second; where each transaction can take up to 10 seconds to finish
@@ -26,27 +26,64 @@ As an aside, this is intended for me to experience vibe coding and MCP Server cr
   - Microsoft.Extensions.Hosting (v8.0.0)
 
 ## Acceptance Criteria
-- Given I ask the AI Agent for the status of Study resource A
-  Then the MCP server will return a JSON with the following structure:
-  ```
-  {
-    count: <Number of resources>,
-    resources: [
-        {
-            name: <name of resource>,
-            type: <type of resource>,
-            status: <one of "ready", "recovering", "active>
-        }
-    ]
+
+### Tool: `getResourceStatus`
+Returns the status of resources with optional filtering.
+
+**Parameters:**
+- `resourceType` (optional): Filter by resource type (e.g., "worker", "storage-bin", "transporter")
+- `status` (optional): Filter by status
+- `countOnly` (optional, default: false): Return only count without resource details
+
+**Response structure:**
+```json
+{
+  "count": <number of resources>,
+  "resources": [
+    {
+      "name": "<resource name>",
+      "type": "<resource type>",
+      "status": "<resource status>"
+    }
+  ]
+}
+```
+
+**Valid statuses by resource type:**
+- `worker`: "active", "ready", "maintenance"
+- `storage-bin`: "empty", "in-use"
+- `transporter`: "parked", "in-transit-worker", "in-transit-storage-bin", "in-transit-worker-storage-bin"
+
+### Tool: `getBackendVersion`
+Returns the backend server version.
+
+**Parameters:** None
+
+**Response structure:**
+```json
+{
+  "version": "<version string>"
+}
+```
+
+### Tool: `getResourceTypes`
+Returns metadata about available resource types, their counts, and valid statuses.
+
+**Parameters:** None
+
+**Response structure:**
+```json
+{
+  "totalResources": <total count>,
+  "resourceTypes": {
+    "<type-name>": {
+      "type": "<type-name>",
+      "count": <count>,
+      "validStatuses": ["<status1>", "<status2>"]
+    }
   }
-  ```
-- Given I ask the AI Agent for the backend version of Study server
-  Then the MCP server will return a JSON with the following structure:
-  ```
-  {
-    version: <Some version configured in code>
-  }
-  ```
+}
+```
 
 ## Out of Scope
 Do not build a web-based UI for this.
@@ -61,18 +98,7 @@ dotnet run --project src/McpServer.csproj
 ```
 
 ```MCP inspector
-npx @modelcontextprotocol/inspector pwsh -NoLogo -Command 'dotnet run --no-logo --no-build --project "<path to mcp-server>\src\McpServer.csproj"
+npx @modelcontextprotocol/inspector dotnet run --no-logo --no-build --project "<path to mcp-server>/src/McpServer.csproj"
 ```
 
 The server reads JSON-RPC 2.0 messages from stdin and writes responses to stdout. Logging is written to stderr.
-
-## Change log
-- 2026-02-07
-  - Added ModelContextProtocol SDK (v0.8.0-preview.1)
-  - Removed C++ integration provisions from codebase
-  - Implemented attribute-based tool registration using `[McpServerTool]`
-  - Added `getResourceStatus` tool returning strongly-typed DTOs
-  - Added `getBackendVersion` tool per acceptance criteria
-  - Refactored to use SDK's stdio transport and automatic protocol handling
-  - Removed manual JSON-RPC message handling (~200 lines of code eliminated)
-  - Renamed the MCP Server to "Sentinel MCP Server"
