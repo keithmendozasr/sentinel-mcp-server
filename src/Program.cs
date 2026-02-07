@@ -1,5 +1,3 @@
-using ModelContextProtocol.Server;
-
 namespace McpServer;
 
 internal static class Program

@@ -12,17 +12,17 @@ namespace McpServer.Services;
 /// </summary>
 public class SentinelResourceMonitor : IEnumerable<ResourceDto>
 {
-    private static readonly Random _random = new Random();
+    private static readonly Random _random = new();
     
-    private static readonly string[] _workerStates = { "active", "ready", "maintenance" };
-    private static readonly string[] _storageBinStates = { "empty", "in-use" };
+    private static readonly string[] _workerStates = ["active", "ready", "maintenance"];
+    private static readonly string[] _storageBinStates = ["empty", "in-use"];
     private static readonly string[] _transporterStates = 
-    { 
+    [ 
         "parked", 
         "in-transit-worker", 
         "in-transit-storage-bin", 
         "in-transit-worker-storage-bin" 
-    };
+    ];
 
     private const int WorkerCount = 60;
     private const int StorageBinCount = 30;
