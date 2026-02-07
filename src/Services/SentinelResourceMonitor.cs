@@ -28,6 +28,36 @@ public class SentinelResourceMonitor : IEnumerable<ResourceDto>
     private const int StorageBinCount = 30;
     private const int TransporterCount = 10;
 
+    /// <summary>
+    /// Gets metadata about available resource types, their statuses, and counts.
+    /// </summary>
+    public static Dictionary<string, ResourceTypeMetadata> GetResourceMetadata()
+    {
+        return new Dictionary<string, ResourceTypeMetadata>
+        {
+            ["worker"] = new ResourceTypeMetadata
+            {
+                Type = "worker",
+                Count = WorkerCount,
+                ValidStatuses = _workerStates
+            },
+            ["storage-bin"] = new ResourceTypeMetadata
+            {
+                Type = "storage-bin",
+                Count = StorageBinCount,
+                ValidStatuses = _storageBinStates
+            },
+            ["transporter"] = new ResourceTypeMetadata
+            {
+                Type = "transporter",
+                Count = TransporterCount,
+                ValidStatuses = _transporterStates
+            }
+        };
+    }
+
+    public static int TotalResourceCount => WorkerCount + StorageBinCount + TransporterCount;
+
     public IEnumerator<ResourceDto> GetEnumerator()
     {
         // Generate 60 workers
