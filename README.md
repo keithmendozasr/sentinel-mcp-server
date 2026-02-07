@@ -1,7 +1,8 @@
-# My Study MCP Server
+# Sentinel MCP Server
 
 ## Problem Statement
-This is a project to help me understand AI-based coding better
+This project is an MCP server for "Sentinel" system. The goal is to allow an AI agent to get information about the state of resources that "Sentinel" monitors.
+As an aside, this is intended for me to experience vibe coding and MCP Server creation.
 
 ## Goals
 - Produce an MCP server using vibe-coding mostly
@@ -74,3 +75,4 @@ The server reads JSON-RPC 2.0 messages from stdin and writes responses to stdout
   - Added `getBackendVersion` tool per acceptance criteria
   - Refactored to use SDK's stdio transport and automatic protocol handling
   - Removed manual JSON-RPC message handling (~200 lines of code eliminated)
+  - Renamed the MCP Server to "Sentinel MCP Server"
