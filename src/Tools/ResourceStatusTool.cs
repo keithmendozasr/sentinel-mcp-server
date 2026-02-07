@@ -1,31 +1,15 @@
+using System.ComponentModel;
 using McpServer.Models;
+using ModelContextProtocol.Server;
 
 namespace McpServer.Tools;
 
-public class ResourceStatusTool
+[McpServerToolType]
+public static class ResourceStatusTool
 {
-    public object ListTools()
-    {
-        return new
-        {
-            tools = new[]
-            {
-                new
-                {
-                    name = "getResourceStatus",
-                    description = "Returns status of resources",
-                    inputSchema = new Dictionary<string, object>
-                    {
-                        ["type"] = "object",
-                        ["properties"] = new Dictionary<string, object>(),
-                        ["required"] = new string[] { }
-                    }
-                }
-            }
-        };
-    }
-
-    public Task<object> GetResourceStatusAsync(CancellationToken ct)
+    [McpServerTool(Name = "getResourceStatus")]
+    [Description("Returns status of resources")]
+    public static Task<ResourceStatusResponseDto> GetResourceStatus(CancellationToken ct)
     {
         // Hardcoded mock resources
         var resources = new List<ResourceDto>
@@ -34,12 +18,12 @@ public class ResourceStatusTool
             new ResourceDto { Name = "res-2", Type = "generic", Status = "active" }
         };
 
-        var result = new
+        var result = new ResourceStatusResponseDto
         {
-            count = resources.Count,
-            resources
+            Count = resources.Count,
+            Resources = resources
         };
 
-        return Task.FromResult<object>(result);
+        return Task.FromResult(result);
     }
 }

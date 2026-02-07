@@ -1,5 +1,4 @@
-using McpServer.Services;
-using McpServer.Tools;
+using ModelContextProtocol.Server;
 
 namespace McpServer;
 
@@ -7,15 +6,16 @@ internal static class Program
 {
     public static async Task Main(string[] args)
     {
-        using IHost host = Host.CreateDefaultBuilder(args)
-            .ConfigureServices(services =>
-            {
-                services.AddSingleton<JsonRpcHandler>();
-                services.AddSingleton<ResourceStatusTool>();
-                services.AddHostedService<McpServerService>();
-            })
-            .Build();
+        var builder = Host.CreateApplicationBuilder(args);
+        
+        builder.Logging.AddConsole(opts => 
+            opts.LogToStandardErrorThreshold = LogLevel.Trace);
+        
+        builder.Services
+            .AddMcpServer()
+            .WithStdioServerTransport()
+            .WithToolsFromAssembly();
 
-        await host.RunAsync();
+        await builder.Build().RunAsync();
     }
 }

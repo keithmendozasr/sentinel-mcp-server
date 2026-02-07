@@ -1,30 +1,31 @@
-# AI Stuff
+# My Study MCP Server
 
 ## Problem Statement
 This is a project to help me understand AI-based coding better
 
 ## Goals
 - Produce an MCP server using vibe-coding mostly
-- Have scaffolding in place to allow for the C#-based web server to call C++-based code for the fun of it
+- Build a foundation for future MCP server development
 
 ## Requirements
 ### Functional
 - The system shall act as a basis for a future MCP server
-- The web server will be in C#
-- Have provisions so that the web controller can hand off processing to methods written in C++
 - As a starting iteration the MCP server can send "hard-coded values"
-- Have provisions to be able to test/run MCP server functionality on a command-line.
 
 ### Non-Functional
 - Performance: The system should be able to handle start processing at least 100 transactions per second; where each transaction can take up to 10 seconds to finish
 - Security: For now, make the MCP server open access
+- Be able to debug the MCP server code while it's attached to the IDE's agent
 
 ## Architecture Notes
-- Language: C# for the web server. Option for processing to be written in C++
-- Framework: .Net cross-platform
+- Language: C#
+- Framework: .NET 10.0 (cross-platform)
+- Libraries:
+  - ModelContextProtocol (v0.8.0-preview.1)
+  - Microsoft.Extensions.Hosting (v8.0.0)
 
 ## Acceptance Criteria
-- Given I ask the AI Agent for the status of resource A
+- Given I ask the AI Agent for the status of Study resource A
   Then the MCP server will return a JSON with the following structure:
   ```
   {
@@ -36,6 +37,13 @@ This is a project to help me understand AI-based coding better
             status: <one of "ready", "recovering", "active>
         }
     ]
+  }
+  ```
+- Given I ask the AI Agent for the backend version of Study server
+  Then the MCP server will return a JSON with the following structure:
+  ```
+  {
+    version: <Some version configured in code>
   }
   ```
 
@@ -52,3 +60,13 @@ dotnet run --project src/McpServer.csproj
 ```
 
 The server reads JSON-RPC 2.0 messages from stdin and writes responses to stdout. Logging is written to stderr.
+
+## Change log
+- 2026-02-07
+  - Added ModelContextProtocol SDK (v0.8.0-preview.1)
+  - Removed C++ integration provisions from codebase
+  - Implemented attribute-based tool registration using `[McpServerTool]`
+  - Added `getResourceStatus` tool returning strongly-typed DTOs
+  - Added `getBackendVersion` tool per acceptance criteria
+  - Refactored to use SDK's stdio transport and automatic protocol handling
+  - Removed manual JSON-RPC message handling (~200 lines of code eliminated)
