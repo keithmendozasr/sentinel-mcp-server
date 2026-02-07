@@ -1,9 +1,9 @@
 using System.ComponentModel;
-using McpServer.Models;
-using McpServer.Services;
+using SentinelMcpServer.Models;
+using SentinelMcpServer.Services;
 using ModelContextProtocol.Server;
 
-namespace McpServer.Tools;
+namespace SentinelMcpServer.Tools;
 
 [McpServerToolType]
 public static class ResourceStatusTool

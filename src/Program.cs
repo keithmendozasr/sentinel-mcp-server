@@ -1,4 +1,4 @@
-namespace McpServer;
+namespace SentinelMcpServer;
 
 internal static class Program
 {

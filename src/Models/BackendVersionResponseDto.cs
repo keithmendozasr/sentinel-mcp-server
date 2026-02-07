@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace McpServer.Models;
+namespace SentinelMcpServer.Models;
 
 public class BackendVersionResponseDto
 {

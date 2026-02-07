@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace McpServer.Models;
+namespace SentinelMcpServer.Models;
 
 public class ResourceTypeMetadata
 {
@@ -11,5 +11,5 @@ public class ResourceTypeMetadata
     public int Count { get; set; }
     
     [JsonPropertyName("validStatuses")]
-    public string[] ValidStatuses { get; set; } = Array.Empty<string>();
+    public string[] ValidStatuses { get; set; } = [];
 }

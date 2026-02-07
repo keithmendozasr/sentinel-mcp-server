@@ -1,8 +1,8 @@
 using System.ComponentModel;
-using McpServer.Models;
+using SentinelMcpServer.Models;
 using ModelContextProtocol.Server;
 
-namespace McpServer.Tools;
+namespace SentinelMcpServer.Tools;
 
 [McpServerToolType]
 public static class BackendVersionTool

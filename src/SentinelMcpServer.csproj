@@ -4,8 +4,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OutputType>Exe</OutputType>
-    <RootNamespace>McpServer</RootNamespace>
-    <AssemblyName>Sentinel MCP Server</AssemblyName>
+    <RootNamespace>SentinelMcpServer</RootNamespace>
+    <AssemblyName>SentinelMcpServer</AssemblyName>
     <Version>0.1.0</Version>
   </PropertyGroup>
   <ItemGroup>

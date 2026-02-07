@@ -1,7 +1,7 @@
 using System.Collections;
-using McpServer.Models;
+using SentinelMcpServer.Models;
 
-namespace McpServer.Services;
+namespace SentinelMcpServer.Services;
 
 /// <summary>
 /// The SentinelResourceMonitor generates statuses for 100 resources.
@@ -10,9 +10,13 @@ namespace McpServer.Services;
 /// - 10 "transporter" resources
 /// States are randomly generated each time the collection is enumerated.
 /// </summary>
-public class SentinelResourceMonitor : IEnumerable<ResourceDto>
+/// <remarks>
+/// Initializes a new instance of the <see cref="SentinelResourceMonitor"/> class.
+/// </remarks>
+/// <param name="random">Optional Random instance for generating resource states. If null, a new Random instance is created.</param>
+public class SentinelResourceMonitor(Random? random = null) : IEnumerable<ResourceDto>
 {
-    private static readonly Random _random = new();
+    private readonly Random _random = random ?? new Random();
     
     private static readonly string[] _workerStates = ["active", "ready", "maintenance"];
     private static readonly string[] _storageBinStates = ["empty", "in-use"];

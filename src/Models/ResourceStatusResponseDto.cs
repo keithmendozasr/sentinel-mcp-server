@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace McpServer.Models;
+namespace SentinelMcpServer.Models;
 
 public class ResourceStatusResponseDto
 {
@@ -8,5 +8,5 @@ public class ResourceStatusResponseDto
     public int Count { get; set; }
 
     [JsonPropertyName("resources")]
-    public List<ResourceDto> Resources { get; set; } = new();
+    public List<ResourceDto> Resources { get; set; } = [];
 }

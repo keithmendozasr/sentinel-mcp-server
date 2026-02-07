@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace McpServer.Models;
+namespace SentinelMcpServer.Models;
 
 public class ResourceDiscoveryResponseDto
 {
@@ -8,5 +8,5 @@ public class ResourceDiscoveryResponseDto
     public int TotalResources { get; set; }
     
     [JsonPropertyName("resourceTypes")]
-    public Dictionary<string, ResourceTypeMetadata> ResourceTypes { get; set; } = new();
+    public Dictionary<string, ResourceTypeMetadata> ResourceTypes { get; set; } = [];
 }

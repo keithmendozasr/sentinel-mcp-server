@@ -93,12 +93,12 @@ Do not build a web-based UI for this.
 Build and run the MCP server (worker) locally:
 
 ```cli
-dotnet build src/McpServer.csproj
-dotnet run --project src/McpServer.csproj
+dotnet build src/SentinelMcpServer.csproj
+dotnet run --project src/SentinelMcpServer.csproj
 ```
 
 ```MCP inspector
-npx @modelcontextprotocol/inspector dotnet run --no-logo --no-build --project "<path to mcp-server>/src/McpServer.csproj"
+npx @modelcontextprotocol/inspector dotnet run --no-logo --no-build --project "<path to sentinel-mcp-server>/src/SentinelMcpServer.csproj"
 ```
 
 The server reads JSON-RPC 2.0 messages from stdin and writes responses to stdout. Logging is written to stderr.
